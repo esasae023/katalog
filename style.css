@@ -1,0 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+body {
+  padding-top: 4.5rem; /* For fixed header */
+}
+
