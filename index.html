@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Katalog Produk</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' }
+  </script>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+
+  <!-- Header -->
+  <header class="fixed top-0 w-full z-50 backdrop-blur bg-white/70 dark:bg-gray-900/70 shadow transition-all">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <img src="assets/logo.png" alt="Logo" class="w-10 h-10 rounded-full">
+        <h1 class="font-bold text-lg">Katalog Produk</h1>
+      </div>
+      <div class="hidden md:flex items-center gap-4">
+        <!-- Dropdown Kategori -->
+        <div class="relative">
+          <button id="categoryToggle" class="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded">Kategori Produk</button>
+          <div id="categoryMenu" class="absolute right-0 mt-2 hidden bg-white dark:bg-gray-800 rounded shadow z-50">
+            <button data-category="all" class="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Semua</button>
+            <button data-category="kesehatan" class="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Kesehatan</button>
+            <button data-category="kecantikan" class="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Kecantikan</button>
+            <button data-category="rumah" class="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Rumah Tangga</button>
+          </div>
+        </div>
+        <input type="text" id="searchInput" placeholder="Cari produk..." class="px-3 py-1 rounded bg-gray-100 dark:bg-gray-700">
+        <button id="toggleTheme" class="px-3 py-1 rounded bg-gray-300 dark:bg-gray-700">🌞 / 🌙</button>
+      </div>
+      <div>
+        <button id="navToggle" class="md:hidden p-2 z-50 fixed top-4 right-4 w-8 h-8">
+            <span id="line1" class="absolute left-0 top-2 w-6 h-0.5 bg-black dark:bg-white transition-all duration-300 origin-center"></span>
+            <span id="line2" class="absolute left-0 top-3.5 w-6 h-0.5 bg-black dark:bg-white transition-all duration-300 origin-center"></span>
+            <span id="line3" class="absolute left-0 top-5 w-6 h-0.5 bg-black dark:bg-white transition-all duration-300 origin-center"></span>
+        </button>
+      </div>
+    </div>
+
+
+    <!-- Menu Mobile -->
+    <div id="mobileMenu" class="hidden md:hidden flex-col px-4 pb-4 space-y-2">
+      <input type="text" id="searchInputMobile" placeholder="Cari produk..." class="px-3 py-1 rounded bg-gray-100 dark:bg-gray-700 w-full">
+      <button id="mobileCategoryToggle" class="w-full text-left px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded">Kategori Produk</button>
+      <div id="mobileCategoryMenu" class="hidden pl-4 space-y-1">
+        <button data-category="all" class="block w-full text-left px-4 py-1 hover:bg-gray-100 dark:hover:bg-gray-700">Semua</button>
+        <button data-category="kesehatan" class="block w-full text-left px-4 py-1 hover:bg-gray-100 dark:hover:bg-gray-700">Kesehatan</button>
+        <button data-category="kecantikan" class="block w-full text-left px-4 py-1 hover:bg-gray-100 dark:hover:bg-gray-700">Kecantikan</button>
+        <button data-category="rumah" class="block w-full text-left px-4 py-1 hover:bg-gray-100 dark:hover:bg-gray-700">Rumah Tangga</button>
+      </div>
+      <a href="https://wa.me/6285327068676" class="block px-4 py-2 bg-green-500 text-white rounded">Kontak Kami</a>
+      <button id="mobileToggleTheme" class="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded">🌞 / 🌙</button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="relative h-[40vh] bg-fixed bg-center bg-cover mt-[-4.5rem]" style="background-image: url('./assets/hero-img.jpg');">
+    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-end p-6">
+      <h2 class="text-white text-2xl font-bold">Siap antar Tegal dan sekitarnya</h2>
+    </div>
+  </section>
+
+  <!-- Produk -->
+  <main class="max-w-6xl mx-auto px-4 py-8" id="productContainer">
+    <div id="productGrid" class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3"></div>
+  </main>
+
+  <!-- Modal -->
+  <div id="productModal" class="fixed inset-0 backdrop-blur-sm bg-black/50 hidden items-center justify-center z-50">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded shadow max-w-md w-full relative">
+      <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-xl">×</button>
+      <img id="modalImage" src="" alt="Produk" class="w-full h-48 object-cover rounded mb-4">
+      <h2 id="modalTitle" class="text-xl font-bold mb-2"></h2>
+      <p id="modalDescription" class="mb-4 whitespace-pre-line"></p>
+      <p id="modalPrice" class="font-semibold text-lg mb-4 text-green-600"></p>
+      <a id="modalLink" href="#" target="_blank" class="inline-flex items-center px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="w-5 h-5 mr-2" alt="WA"/>Pesan
+      </a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center py-6 text-sm text-gray-500 dark:text-gray-400 border-t mt-10">
+    this site is 99% created by ChatGPT
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
