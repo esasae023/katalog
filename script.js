@@ -129,4 +129,70 @@ navToggle.addEventListener("click", () => {
   }
 });
 
+// PENTING: Panggil updateThemeIcon() saat halaman dimuat untuk mengatur ikon awal
+function updateThemeIcon() {
+  // const icon = document.getElementById("themeIcon"); // 'icon' adalah span container
+  const sunSvgElement = document.getElementById("sunSvg");
+  const moonSvgElement = document.getElementById("moonSvg");
+
+  if (!sunSvgElement || !moonSvgElement) return; // Pastikan elemen SVG ada
+
+  if (document.documentElement.classList.contains("dark")) {
+    // Tema Gelap: Tampilkan Bulan, Sembunyikan Matahari
+    sunSvgElement.classList.add("hidden"); // Atau sunSvgElement.style.display = "none";
+    moonSvgElement.classList.remove("hidden"); // Atau moonSvgElement.style.display = "inline"; // atau "block"
+  } else {
+    // Tema Terang: Tampilkan Matahari, Sembunyikan Bulan
+    sunSvgElement.classList.remove("hidden");
+    moonSvgElement.classList.add("hidden");
+  }
+}
+
+// PENTING: Panggil updateThemeIcon() saat halaman dimuat untuk mengatur ikon awal
+updateThemeIcon();
+
+document.getElementById("toggleTheme").onclick = () => {
+  document.documentElement.classList.toggle("dark");
+  updateThemeIcon();
+};
+
+// const mobileThemeIcon = document.getElementById("mobileThemeIcon"); // Ini adalah SPAN WADAH
+// Kita akan mengambil SVG di dalamnya atau mereferensikannya langsung
+
+const mobileSunSvgElement = document.getElementById("mobileSunSvg");
+const mobileMoonSvgElement = document.getElementById("mobileMoonSvg");
+
+// Fungsi untuk mengatur status ikon awal (PENTING agar ikon sesuai saat halaman dimuat)
+function setInitialMobileIcon() {
+    if (!mobileSunSvgElement || !mobileMoonSvgElement) return;
+
+    if (document.documentElement.classList.contains("dark")) {
+        mobileSunSvgElement.classList.add("hidden");
+        mobileMoonSvgElement.classList.remove("hidden");
+    } else {
+        mobileSunSvgElement.classList.remove("hidden");
+        mobileMoonSvgElement.classList.add("hidden");
+    }
+}
+
+// Panggil fungsi ini sekali saat script dimuat
+setInitialMobileIcon();
+
+document.getElementById("mobileToggleTheme").onclick = () => {
+    document.documentElement.classList.toggle("dark");
+
+    // Pastikan elemen SVG ada sebelum mengubahnya
+    if (!mobileSunSvgElement || !mobileMoonSvgElement) return;
+
+    if (document.documentElement.classList.contains("dark")) {
+        // Tema Gelap: Tampilkan Bulan, Sembunyikan Matahari
+        mobileSunSvgElement.classList.add("hidden"); // Menggunakan kelas 'hidden' Tailwind
+        mobileMoonSvgElement.classList.remove("hidden");
+    } else {
+        // Tema Terang: Tampilkan Matahari, Sembunyikan Bulan
+        mobileSunSvgElement.classList.remove("hidden");
+        mobileMoonSvgElement.classList.add("hidden");
+    }
+};
+
 renderProducts();
